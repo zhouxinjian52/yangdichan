@@ -1,0 +1,47 @@
+.swiper-content {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.step1 {
+    background: linear-gradient(145deg, #4f74b3 30%, #47b4d3);
+    padding-bottom: 50px;
+}
+
+.step2 {
+    background: #c4c4c4;
+}
+
+.swiper-view-step1-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 4;
+}
+
+.swiper-view-step1-number {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+}
+
+.view-step1-title {
+    font-size: 2.6vh;
+}
+
+.view-step1-val {
+    font-size: 6vh;
+    margin-top: 5px;
+}

@@ -1,0 +1,38 @@
+{
+  "pages":[
+    "pages/merger/index",
+    "pages/land-auction/index",
+    "pages/swiperPage/index",
+    "pages/map/map"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#6e6d6b",
+    "selectedColor": "#1c76e5",
+    "borderStyle": "white",
+    "backgroundColor": "#fff",
+    "box-shadow":"0 0 6px 0",
+    "list": [{
+     "pagePath": "pages/merger/index",
+      "iconPath": "images/merger-default.png",
+      "selectedIconPath": "images/merger-current.png",
+      "text": "并购"
+    }, {
+      "pagePath": "pages/land-auction/index",
+      "iconPath": "images/land-default.png",
+      "selectedIconPath": "images/land-current.png",
+      "text": "土拍"
+    },
+    {
+      "pagePath": "pages/map/map",
+      "iconPath": "images/map-default.png",
+      "selectedIconPath": "images/map-current.png",
+      "text": "地图"
+    }]
+  }
+}

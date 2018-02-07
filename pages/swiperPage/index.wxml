@@ -1,0 +1,27 @@
+<!--index.wxml-->
+<!--1px = 750/320 = 2.34rpx;-->
+<view class="swiper-container">
+    <swiper class="swiper-content" indicator-dots="{{indicatorDots}}" circular="true">
+        <swiper-item item-id="step1">
+            <view class="swiper-view step1">
+                <view class="swiper-view-step1-canvas">
+                    <!-- <canvas class="circle" style="z-index: 0; width:{{canvasCircleWidth}}px; height:{{canvasCircleWidth}}px;" canvas-id="canvasCircle">
+                    </canvas> -->
+                    <canvas style="width:{{canvasCircleWidth}}px; height:{{canvasCircleWidth}}px;" canvas-id="canvasArcCir">
+                    </canvas>
+                </view>
+                <view class="swiper-view-step1-number">
+                    <view class="view-step1-title">净利润</view>
+                    <view class="view-step1-val">11890.50</view>
+                </view>
+                <view class="swiper-view-step1-number">
+                    <view class="view-step1-title">可接受最高报价</view>
+                    <view class="view-step1-val">45710.50</view>
+                </view>
+            </view>
+        </swiper-item>
+        <swiper-item item-id="step2">
+            <view class="swiper-view step2">456</view>
+        </swiper-item>
+    </swiper>
+</view>

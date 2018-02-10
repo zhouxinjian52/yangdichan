@@ -1,0 +1,103 @@
+.swiper-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.swiper-view-canvas {
+    flex: 7;
+    background: linear-gradient(to bottom, #143163, #3f6398);
+    position: relative;
+}
+
+.canvasArcCir {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 0;
+}
+
+.swiperText {
+    position: absolute;
+    top: 38%;
+    left: 54%;
+    color: #9ca7bb;
+    font-size: 20rpx;
+    z-index: 9;
+}
+
+.landBox {
+    margin-top: 0;
+}
+
+.attachedBox {
+    margin-top: 27px;
+}
+
+.saleBox {
+    margin-top: 54px;
+}
+
+.totalBox {
+    position: absolute;
+    bottom: 0;
+    height: 30%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    box-sizing: border-box;
+}
+
+.totalBox-title {
+    color: #9ca7bb;
+    font-size: 12px;
+}
+
+.totalBox-content {
+    color: #fff;
+    font-size: 36px;
+    line-height: 50px;
+}
+
+.swiper-view-list {
+    flex: 6;
+}
+.view-list-box{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 4% 20% 16% 20%;
+}
+.item-list {
+    width: 100%;
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.item-icon {
+    width: 24rpx;
+    height: 24rpx;
+    margin-right: 16rpx;
+}
+
+.item-title {
+    flex: 1;
+    font-size: 26rpx;
+    color: #999;
+}
+
+.item-number {
+    flex: 1;
+    font-size: 26rpx;
+}

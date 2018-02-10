@@ -1,0 +1,33 @@
+<!--index.wxml-->
+<!--1px = 750/320 = 2.34rpx;-->
+<view class="swiper-container">
+    <view class="swiper-view">
+        <view class="swiper-view-canvas">
+            <canvas style="width:{{canvasCircleWidth}}px; height:{{canvasCircleHeight}}px;" canvas-id="canvasArcCir"></canvas>
+            <view class="evaluation">{{resultDataObject.scoreName || "未知"}}</view>
+            <view class="proportion">
+                <text>{{resultDataObject.netInterestRate || "0.00"}}</text>
+                <text class="sign-icon">%</text>
+            </view>
+            <view class="rateTitle">净利润率</view>
+        </view>
+        <view class="swiper-view-number">
+            <view class="view-title">
+                <image class="image-icon" src="../../images/result-icon1.png"></image>
+                <text>净利润</text>
+            </view>
+            <view class="view-val">{{resultDataObject.netProfit || "0.00"}}</view>
+        </view>
+        <view class="swiper-view-number">
+            <view class="view-title">
+                <image class="image-icon" src="../../images/result-icon2.png"></image>
+                <text>可接受最高报价</text>
+            </view>
+            <view class="view-val">{{resultDataObject.accepHighestOffer || "0.00"}}</view>
+        </view>
+    </view>
+    <view class="tab-box">
+        <view class="tab-module tab-current">结果1</view>
+        <view class="tab-module" bindtap="navigateToNext">结果2</view>
+    </view>
+</view>

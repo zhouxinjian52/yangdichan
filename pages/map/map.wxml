@@ -1,5 +1,5 @@
 <!--index.wxml-->
 <!--1px = 750/320 = 2.34rpx;-->
 <view class="container">
-  map
+    
 </view>

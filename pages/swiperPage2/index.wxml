@@ -1,0 +1,31 @@
+<!--index.wxml-->
+<!--1px = 750/320 = 2.34rpx;-->
+<view class="swiper-container">
+    <view class="swiper-view-canvas">
+        <canvas class="canvasArcCir" style="width:{{canvasCircleWidth}}px; height:{{canvasCircleHeight}}px;" canvas-id="canvasArcCir1"></canvas>
+        <canvas class="canvasArcCir" style="width:{{canvasCircleWidth}}px; height:{{canvasCircleHeight}}px;" canvas-id="canvasArcCir2"></canvas>
+        <canvas class="canvasArcCir" style="width:{{canvasCircleWidth}}px; height:{{canvasCircleHeight}}px;" canvas-id="canvasArcCir3"></canvas>
+        <text class="swiperText landBox">期间费用: {{numberCicle3}}</text>
+        <text class="swiperText attachedBox">税金: {{numberCicle2}}</text>
+        <text class="swiperText saleBox">销售成本: {{numberCicle1}}</text>
+        <view class="totalBox">
+            <view class="totalBox-title">销售收入</view>
+            <view class="totalBox-content">{{resultDataObject.salesRevenue || "0.00"}}</view>
+        </view>
+    </view>
+    <view class="swiper-view-list">
+        <view class="view-list-box">
+            <block wx:for="{{viewListData}}" wx:key="list">
+                <view class="item-list">
+                    <view class="item-icon" style="background:{{item.color}}"></view>
+                    <view class="item-title">{{item.title}}</view>
+                    <view class="item-number" style="color:{{item.color}}">{{item.number}}{{item.key ==="netInterestRate"?"%":""}}</view>
+                </view>
+            </block>
+        </view>
+    </view>
+    <view class="tab-box">
+        <view class="tab-module" bindtap="navigateToNext">结果1</view>
+        <view class="tab-module tab-current">结果2</view>
+    </view>
+</view>

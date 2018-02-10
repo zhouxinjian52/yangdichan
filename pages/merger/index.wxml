@@ -11,7 +11,7 @@
                     bindinput="bindGetInputValue" data-type="{{item.type}}" />
             </view>
             <view wx:if="{{item.unit}}" class="flex-module flex-unit">{{item.unit}}</view>
-            <text wx:if="{{item.isrequest}}" class="flex-icon">*</text>
+            <view wx:if="{{item.isrequest}}" class="flex-module flex-icon">*</view>
         </view>
         <!-- 2 -->
         <view wx:elif="{{item.typeId==2}}" class="merger-list">
@@ -19,7 +19,7 @@
             <view class="flex-module flex-input">
                 <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.placeHolder}}" type="number"
                     bindinput="bindGetInputValue" data-type="{{item.type}}" />
-                <text wx:if="{{item.isrequest}}" class="flex-icon">*</text>
+                <view wx:if="{{item.isrequest}}" class="flex-icon">*</view>
             </view>
             <view class="flex-module flex-select">
                 <picker bindchange="bindPickerChange" value="{{selectIndex}}" range="{{item.array}}">
@@ -38,7 +38,7 @@
                     <!-- 减号 -->
                     <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
                     <!-- 数值 -->
-                    <input type="number" value="{{num}}" disabled="true"/>
+                    <input value="{{num}}%" disabled="true" />
                     <!-- 加号 -->
                     <text class="normal" bindtap="bindPlus">+</text>
                 </view>
@@ -58,14 +58,20 @@
                     <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写售价" type="number" bindinput="bindGetInputValue"
                         data-type="{{item.type}}" />
                 </view>
-                <view class="merger-unit">￥/㎡</view>
+                <view class="merger-unit">
+                    ￥/㎡
+                    <text wx:if="{{item.isrequest}}">*</text>
+                </view>
             </view>
             <view class="flex-area-price flex-area-price hasBottomLine">
-                <view>
+                <view wx:if="{{item.typeArea=='parkingAcreage'}}">
+                    <input class="flex-input-dom flex-left" maxlength="9" disabled/>
+                </view>
+                <view wx:else>
                     <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写面积" bindinput="bindGetInputValue"
                         data-type="{{item.typeArea}}" />
                 </view>
-                <text class="merger-unit">㎡</text>
+                <text wx:if="{{item.typeArea!=='parkingAcreage'}}" class="merger-unit">㎡</text>
             </view>
         </view>
         <view wx:if="{{item.typeId==2}}" class="merger-list-area hasBottomLine">
@@ -84,6 +90,6 @@
     </view>
 
     <!-- 计算 -->
-    <button class="start-btn" bindtap="bindStart" bindtap="validataAjaxSet">计算</button>
-    <view class="start-btn-view" bindtap="bindStart">计算并保存</view>
+    <button class="start-btn" bindtap="validataAjaxSet">计算</button>
+    <view class="start-btn-view" bindtap="validataAjaxSetSave">计算并保存</view>
 </scroll-view>

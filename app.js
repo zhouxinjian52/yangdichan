@@ -44,7 +44,9 @@ App({
 	},
 	globalData: {
 		userInfo: null,
-		subDomain: "tz", // 如果你的域名是： https://api.it120.cc/abcd 那么这里只要填写 abcd
+		requestUrl: "https://hyn.qiyehoutai.com/",
+		mergerSubmit: "land/measure", // 并购接口
+		landSubmit: "land/measureTwo", // 土拍接口
 		version: "1.0.0",
 		shareProfile: '花样年地产' // 首页转发的时候话术
 	}

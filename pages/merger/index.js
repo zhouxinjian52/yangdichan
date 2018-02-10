@@ -1,6 +1,7 @@
 //merger.js
 //获取应用实例
 var app = getApp()
+console.log(app)
 wx.showNavigationBarLoading()
 const formListMessage = [{
 	label: "土地亩数",
@@ -43,12 +44,14 @@ const lessListMessage = [{
 	label: "高层",
 	type: "highPrice",
 	typeArea: "highAcreage",
+	isrequest: true,
 	typeId: 1
 }];
 const moreListMessage = [{
 	label: "高层",
 	type: "highPrice",
 	typeArea: "highAcreage",
+	isrequest: true,
 	typeId: 1
 }, {
 	label: "洋房",
@@ -97,163 +100,21 @@ Page({
 	data: {
 		formListMessage: formListMessage,
 		selectIndex: 0,
-		errorList: [1, 5],
+		// errorList: [1, 5],
 		moreListMessage: lessListMessage,
 		moreTitle: "面积/售价",
 		isLookMoreState: true,
-		num: 1, // input默认是1
-		minusStatus: 'disabled' // 使用data数据对象设置样式名 
-	},
-	/* 点击减号 */
-	bindMinus: function () {
-		var num = this.data.num;
-		// 如果大于1时，才可以减  
-		if (num > 1) {
-			num--;
-		}
-		// 只有大于一件的时候，才能normal状态，否则disable状态  
-		var minusStatus = num <= 1 ? 'disabled' : 'normal';
-		// 将数值与状态写回  
-		this.setData({
-			num: num,
-			minusStatus: minusStatus
-		});
-	},
-	/* 点击加号 */
-	bindPlus: function () {
-		var num = this.data.num;
-		// 不作过多考虑自增1
-		num++;
-		// 只有大于一件的时候，才能normal状态，否则disable状态  
-		var minusStatus = num < 1 ? 'disabled' : 'normal';
-		// 将数值与状态写回  
-		this.setData({
-			num: num,
-			minusStatus: minusStatus
-		});
-	},
-	/* 输入框事件 */
-	bindManual: function (e) {
-		var num = e.detail.value;
-		// 将数值与状态写回
-		this.setData({
-			num: num
-		});
-	},
-	bindPickerChange: function (e) {
-		console.log('picker发送选择改变，携带值为', e.detail.value)
-		this.setData({
-			selectIndex: e.detail.value
-		})
-	},
-	changeMoreState: function (e) {
-		this.setData({
-			moreListMessage: this.data.isLookMoreState ? moreListMessage : lessListMessage,
-			isLookMoreState: !this.data.isLookMoreState
-		})
-	},
-	bindStart: function (e) {
-		console.log(e);
-	},
-	bindGetInputValue(e) {
-		const { dataset } = e.currentTarget;
-		const { type } = dataset;
-		const { value } = e.detail;
-		try {
-			this.setCompareData[type] = value;
-		} catch (error) {
-			throw error;
-		}
-	},
-	validataAjaxSet() {
-		wx.navigateTo({
-			url: '../swiperPage/index?id=1'
-		})
-		// for (const key in this.setCompareData) {
-		// 	if (this.setCompareData[key] === null || this.setCompareData[key] === "" || this.setCompareData[key] === 0) {
-		// 		switch (key) {
-		// 			case "landAcres":
-		// 				wx.showModal({
-		// 					// title: "内容填写不完整",
-		// 					content: "土地亩数不能为空",
-		// 					showCancel: false,
-		// 					success(d) {
-		// 						console.log(d)
-		// 					}
-		// 				});
-		// 				return;
-		// 			case "plotRatio":
-		// 				wx.showModal({
-		// 					// title: "内容填写不完整",
-		// 					content: "容积率不能为空",
-		// 					showCancel: false,
-		// 					success(d) {
-		// 						console.log(d)
-		// 					}
-		// 				});
-		// 				return;
-		// 			case "landPrice":
-		// 				wx.showModal({
-		// 					// title: "内容填写不完整",
-		// 					content: "有票地价不能为空",
-		// 					showCancel: false,
-		// 					success(d) {
-		// 						console.log(d)
-		// 					}
-		// 				});
-		// 				return;
-		// 			case "landTotal":
-		// 				wx.showModal({
-		// 					// title: "内容填写不完整",
-		// 					content: "总收购对价不能为空",
-		// 					showCancel: false,
-		// 					success(d) {
-		// 						console.log(d)
-		// 					}
-		// 				});
-		// 				return;
-		// 			case "profitMargin":
-		// 				wx.showModal({
-		// 					// title: "内容填写不完整",
-		// 					content: "目标利润率不能为0",
-		// 					showCancel: false,
-		// 					success(d) {
-		// 						console.log(d)
-		// 					}
-		// 				});
-		// 				return;
-		// 			default:
-		// 				// console.log(key);
-		// 				break;
-		// 		}
-		// 	}
-		// }
-		// console.log('ok');
-		// console.log(this.setCompareData);
-		// wx.request({
-		// 	url: 'http://139.224.55.45:8484/land/measure', //仅为示例，并非真实的接口地址
-		// 	data: { ...this.setCompareData },
-		// 	header: {
-		// 		'content-type': 'application/json' // 默认值
-		// 	},
-		// 	success: function (res) {
-		// 		console.log(res.data);
-		// 		wx.navigateTo({
-		// 			url: '../swiperPage/index?id=1'
-		// 		})
-		// 	}
-		// })
+		num: 0, // input默认是0
+		minusStatus: 'normal' // 使用data数据对象设置样式名 
 	},
 	onLoad: function (options) {
-		// Do some initialize when page load.
-		// wx.navigateTo({
-		// 	url: '../swiperPage/index?id=1'
-		// })
+		console.log(options);
 	},
 	onReady: function () {
 		// 设置请求接口参数
 		this.setCompareData = {
 			isSave: null, // 是否保存(默认不保存)
+			plan: 1, // 方案1-5 默认1
 			landAcres: null, // 土地亩数
 			plotRatio: null, // 容积率
 			landPrice: null, //有票地价
@@ -275,44 +136,180 @@ Page({
 			shopsAcreage: null,//商铺面积
 			parkingPrice: null//车位售价
 		}
-
 		wx.hideNavigationBarLoading()
 	},
-	onShow: function () {
-		// Do something when page show.
-	},
-	onHide: function () {
-		// Do something when page hide.
-	},
-	onUnload: function () {
-		// Do something when page close.
-	},
-	onPullDownRefresh: function () {
-		// Do something when pull down.
-	},
-	onReachBottom: function () {
-		// Do something when page reach bottom.
-	},
-	onShareAppMessage: function () {
-		// return custom share data when user share.
-	},
-	onPageScroll: function () {
-		// Do something when page scroll
-	},
-	onTabItemTap(item) {
-		console.log(item.index)
-		console.log(item.pagePath)
-		console.log(item.text)
-	},
-	// Event handler.
-	viewTap: function () {
+	/* 点击减号 */
+	bindMinus: function () {
+		var num = this.data.num;
+		const min = -50;
+		if (num > min) {
+			num--;
+		} else {
+			return;
+		}
+		// 只有大于一件的时候，才能normal状态，否则disable状态  
+		var minusStatus = num <= min ? 'disabled' : 'normal';
+		// 将数值与状态写回
+		this.setCompareData["profitMargin"] = num;
 		this.setData({
-			text: 'Set some data for updating view.'
-		}, function () {
-			// this is setData callback
+			num: num,
+			minusStatus: minusStatus
+		});
+	},
+	/* 点击加号 */
+	bindPlus: function () {
+		var num = this.data.num;
+		const max = 50;
+		if (num < max) {
+			num++;
+		} else {
+			return;
+		}
+		// 只有大于一件的时候，才能normal状态，否则disable状态  
+		var minusStatus = num >= max ? 'disabled' : 'normal';
+		// 将数值与状态写回
+		this.setCompareData["profitMargin"] = num;
+		this.setData({
+			num: num,
+			minusStatus: minusStatus
+		});
+	},
+	/* 输入框事件 */
+	bindManual: function (e) {
+		var num = e.detail.value;
+		// 将数值与状态写回
+		this.setData({
+			num: num
+		});
+	},
+	bindPickerChange: function (e) {
+		this.setCompareData["plan"] = Number(e.detail.value) + 1
+		this.setData({
+			selectIndex: e.detail.value
 		})
 	},
-	customData: {
-		hi: 'MINA'
+	changeMoreState: function (e) {
+		this.setData({
+			moreListMessage: this.data.isLookMoreState ? moreListMessage : lessListMessage,
+			isLookMoreState: !this.data.isLookMoreState
+		})
+	},
+	bindGetInputValue(e) {
+		const { dataset } = e.currentTarget;
+		const { type } = dataset;
+		const { value } = e.detail;
+		try {
+			this.setCompareData[type] = value;
+		} catch (error) {
+			throw error;
+		}
+	},
+	validataAjaxSetSave() {
+		this.setCompareData["isSave"] = true;
+		this.validataAjaxSet();
+	},
+	validataAjaxSet() {
+		const newRequestObject = {};
+		for (const key in this.setCompareData) {
+			if (this.setCompareData[key] === null || this.setCompareData[key] === "") {
+				switch (key) {
+					case "landAcres":
+						wx.showModal({
+							// title: "内容填写不完整",
+							content: "土地亩数不能为空",
+							showCancel: false,
+							success(d) {
+								console.log(d)
+							}
+						});
+						return;
+					case "plotRatio":
+						wx.showModal({
+							// title: "内容填写不完整",
+							content: "容积率不能为空",
+							showCancel: false,
+							success(d) {
+								console.log(d)
+							}
+						});
+						return;
+					case "landPrice":
+						wx.showModal({
+							// title: "内容填写不完整",
+							content: "有票地价不能为空",
+							showCancel: false,
+							success(d) {
+								console.log(d)
+							}
+						});
+						return;
+					case "landTotal":
+						wx.showModal({
+							// title: "内容填写不完整",
+							content: "总收购对价不能为空",
+							showCancel: false,
+							success(d) {
+								console.log(d)
+							}
+						});
+						return;
+					case "profitMargin":
+						wx.showModal({
+							// title: "内容填写不完整",
+							content: "目标利润率不能为0",
+							showCancel: false,
+							success(d) {
+								console.log(d)
+							}
+						});
+						return;
+					case "highPrice":
+						wx.showModal({
+							// title: "内容填写不完整",
+							content: "高层售价不能为空",
+							showCancel: false,
+							success(d) {
+								console.log(d)
+							}
+						});
+						return;
+					default:
+						// console.log(key);
+						break;
+				}
+			} else {
+				newRequestObject[key] = this.setCompareData[key];
+			}
+		}
+		wx.showLoading({
+			title: '计算中，请稍等！！'
+		})
+		wx.request({
+			url: app.globalData.requestUrl + app.globalData.mergerSubmit,
+			data: { ...newRequestObject },
+			header: {
+				'content-type': 'application/json' // 默认值
+			},
+			success: function (res) {
+				switch (res.data.code) {
+					case 0:
+						wx.hideLoading();
+						wx.navigateTo({
+							url: '../swiperPage1/index?data=' + JSON.stringify(res.data.data)
+						});
+						break;
+					default:
+						wx.showModal({
+							title: "计算失败",
+							content: `原因：${res.data.desc || "服务器开小差了,请稍后再试！！"}`,
+							showCancel: false,
+							success(d) {
+								// console.log(d)
+							}
+						});
+						break;
+				}
+			}
+		})
 	}
 })

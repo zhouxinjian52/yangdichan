@@ -2,8 +2,9 @@
   "pages":[
     "pages/merger/index",
     "pages/land-auction/index",
-    "pages/swiperPage/index",
-    "pages/map/map"
+    "pages/map/map",
+    "pages/swiperPage1/index",
+    "pages/swiperPage2/index"
   ],
   "window":{
     "backgroundTextStyle":"light",

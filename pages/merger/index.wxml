@@ -25,7 +25,8 @@
                 <view class="flex-module flex-select {{selectDisable?'flex-select-disabled':'flex-select-current'}}">
                     <picker disabled="{{selectDisable}}" bindchange="bindPickerChange" value="{{selectIndex}}" range="{{item.array}}">
                         <view class="picker">
-                            {{item.array[selectIndex]}}
+                            <text>{{item.array[selectIndex]}}</text>
+                            <image style="width: 22rpx; height: 14rpx;margin-left:20rpx;" src="../../images/black-icon-down.png"></image>
                         </view>
                     </picker>
                 </view>
@@ -87,7 +88,10 @@
 
         <!-- 显示更多 -->
         <view class="look-more-list">
-            <text bindtap="changeMoreState">{{isLookMoreState?"显示更多 ∨":"收起更多 ∧"}}</text>
+            <view bindtap="changeMoreState">
+                <text>{{isLookMoreState?"显示更多 ":"收起更多 "}}</text>
+                <image style="width: 22rpx; height: 14rpx;transform:rotate({{isLookMoreState?0:180}}deg)" src="../../images/green-icon-down.png"></image>
+            </view>
         </view>
 
         <!-- 计算 -->

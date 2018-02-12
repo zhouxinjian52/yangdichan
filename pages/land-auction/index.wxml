@@ -1,95 +1,97 @@
 <!--merger.wxml-->
 <!--1px = 750/320 = 2.34rpx;-->
 <scroll-view scroll-y class="container">
-    <!-- 土地填报模块 -->
-    <block wx:for="{{formListMessage}}" wx:key="merger">
-        <!-- 1 -->
-        <view wx:if="{{item.typeId==1}}" class="merger-list">
-            <view class="flex-module flex-label">{{item.label}}</view>
-            <view class="flex-module flex-input">
-                <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.placeHolder}}" type="number"
-                    bindinput="bindGetInputValue" data-type="{{item.type}}" />
-            </view>
-            <view wx:if="{{item.unit}}" class="flex-module flex-unit">{{item.unit}}</view>
-            <view wx:if="{{item.isrequest}}" class="flex-module flex-icon">*</view>
-        </view>
-        <!-- 2 -->
-        <view wx:elif="{{item.typeId==2}}" class="merger-list">
-            <view class="flex-module flex-label">{{item.label}}</view>
-            <view class="flex-module flex-input">
-                <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.placeHolder}}" type="number"
-                    bindinput="bindGetInputValue" data-type="{{item.type}}" />
-                <view wx:if="{{item.isrequest}}" class="flex-icon">*</view>
-            </view>
-            <view class="flex-module flex-select">
-                <picker bindchange="bindPickerChange" value="{{selectIndex}}" range="{{item.array}}">
-                    <view class="picker">
-                        {{item.array[selectIndex]}}
+        <view class="container-box">
+            <!-- 土地填报模块 -->
+            <block wx:for="{{formListMessage}}" wx:key="merger">
+                <!-- 1 -->
+                <view wx:if="{{item.typeId==1}}" class="merger-list">
+                    <view class="flex-module flex-label">{{item.label}}</view>
+                    <view class="flex-module flex-input">
+                        <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}{{item.placeHolder}}"
+                            type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" />
                     </view>
-                </picker>
+                    <view wx:if="{{item.unit}}" class="flex-module flex-unit">{{item.unit}}</view>
+                    <!-- <view wx:if="{{item.isrequest}}" class="flex-module flex-icon">*</view> -->
+                </view>
+                <!-- 2 -->
+                <view wx:elif="{{item.typeId==2}}" class="merger-list">
+                    <view class="flex-module flex-label">{{item.label}}</view>
+                    <view class="flex-module flex-input">
+                        <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}{{item.placeHolder}}"
+                            type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" />
+                        <!-- <view wx:if="{{item.isrequest}}" class="flex-icon">*</view> -->
+                    </view>
+                    <view class="flex-module flex-select {{selectDisable?'flex-select-disabled':'flex-select-current'}}">
+                        <picker disabled="{{selectDisable}}" bindchange="bindPickerChange" value="{{selectIndex}}" range="{{item.array}}">
+                            <view class="picker">
+                                {{item.array[selectIndex]}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 3 -->
+                <view wx:elif="{{item.typeId==3}}" class="merger-list">
+                    <view class="flex-module flex-label">{{item.label}}</view>
+                    <view class="flex-module flex-input">
+                        <!-- 主容器 -->
+                        <view class="stepper">
+                            <!-- 减号 -->
+                            <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
+                            <!-- 数值 -->
+                            <input value="{{num}}%" disabled="true" />
+                            <!-- 加号 -->
+                            <text class="normal" bindtap="bindPlus">+</text>
+                        </view>
+                    </view>
+                </view>
+            </block>
+    
+            <!-- 面积、售价标题 -->
+            <view class="merger-more-title">{{moreTitle}}</view>
+    
+            <!-- 面积、售价模块 -->
+            <block wx:for="{{moreListMessage}}" wx:key="merger">
+                <view wx:if="{{item.typeId==1}}" class="merger-list-area">
+                    <view class="flex-area-label">{{item.label}}</view>
+                    <view class="flex-area-price no-margin hasBottomLine">
+                        <view>
+                            <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}填写售价"
+                                type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" />
+                        </view>
+                        <view class="merger-unit">
+                            ￥/㎡
+                            <!-- <text wx:if="{{item.isrequest}}">*</text> -->
+                        </view>
+                    </view>
+                    <view class="flex-area-price flex-area-price hasBottomLine">
+                        <view wx:if="{{item.typeArea=='parkingAcreage'}}">
+                            <input class="flex-input-dom flex-left" maxlength="9" disabled/>
+                        </view>
+                        <view wx:else>
+                            <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写面积" type="digit" bindinput="bindGetInputValue"
+                                data-type="{{item.typeArea}}" />
+                        </view>
+                        <text wx:if="{{item.typeArea!=='parkingAcreage'}}" class="merger-unit">㎡</text>
+                    </view>
+                </view>
+                <view wx:if="{{item.typeId==2}}" class="merger-list-area hasBottomLine">
+                    <view class="flex-module2 flex-label">{{item.label}}</view>
+                    <view class="flex-module2 flex-input">
+                        <input placeholder-class="phcolor" class="flex-input-dom" maxlength="99" placeholder="填写售价" type="digit" bindinput="bindGetInputValue"
+                            data-type="{{item.type}}" />
+                    </view>
+                    <view class="flex-module2 flex-unit">元</view>
+                </view>
+            </block>
+    
+            <!-- 显示更多 -->
+            <view class="look-more-list">
+                <text bindtap="changeMoreState">{{isLookMoreState?"显示更多 ∨":"收起更多 ∧"}}</text>
             </view>
+    
+            <!-- 计算 -->
+            <button class="start-btn" bindtap="validataAjaxSet">计算</button>
+            <view class="start-btn-view" bindtap="validataAjaxSetSave">计算并保存</view>
         </view>
-        <!-- 3 -->
-        <view wx:elif="{{item.typeId==3}}" class="merger-list">
-            <view class="flex-module flex-label">{{item.label}}</view>
-            <view class="flex-module flex-input">
-                <!-- 主容器 -->
-                <view class="stepper">
-                    <!-- 减号 -->
-                    <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
-                    <!-- 数值 -->
-                    <input value="{{num}}%" disabled="true" />
-                    <!-- 加号 -->
-                    <text class="normal" bindtap="bindPlus">+</text>
-                </view>
-            </view>
-        </view>
-    </block>
-
-    <!-- 面积、售价标题 -->
-    <view class="merger-more-title">{{moreTitle}}</view>
-
-    <!-- 面积、售价模块 -->
-    <block wx:for="{{moreListMessage}}" wx:key="merger">
-        <view wx:if="{{item.typeId==1}}" class="merger-list-area">
-            <view class="flex-area-label">{{item.label}}</view>
-            <view class="flex-area-price no-margin hasBottomLine">
-                <view>
-                    <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写售价" type="number" bindinput="bindGetInputValue"
-                        data-type="{{item.type}}" />
-                </view>
-                <view class="merger-unit">
-                    ￥/㎡
-                    <text wx:if="{{item.isrequest}}">*</text>
-                </view>
-            </view>
-            <view class="flex-area-price flex-area-price hasBottomLine">
-                <view wx:if="{{item.typeArea=='parkingAcreage'}}">
-                    <input class="flex-input-dom flex-left" maxlength="9" disabled/>
-                </view>
-                <view wx:else>
-                    <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写面积" bindinput="bindGetInputValue"
-                        data-type="{{item.typeArea}}" />
-                </view>
-                <text wx:if="{{item.typeArea!=='parkingAcreage'}}" class="merger-unit">㎡</text>
-            </view>
-        </view>
-        <view wx:if="{{item.typeId==2}}" class="merger-list-area hasBottomLine">
-            <view class="flex-module2 flex-label">{{item.label}}</view>
-            <view class="flex-module2 flex-input">
-                <input placeholder-class="phcolor" class="flex-input-dom" maxlength="99" placeholder="填写售价" bindinput="bindGetInputValue"
-                    data-type="{{item.type}}" />
-            </view>
-            <view class="flex-module2 flex-unit">元</view>
-        </view>
-    </block>
-
-    <!-- 显示更多 -->
-    <view class="look-more-list">
-        <text bindtap="changeMoreState">{{isLookMoreState?"显示更多 ∨":"收起更多 ∧"}}</text>
-    </view>
-
-    <!-- 计算 -->
-    <button class="start-btn" bindtap="validataAjaxSet">计算</button>
-    <view class="start-btn-view" bindtap="validataAjaxSetSave">计算并保存</view>
-</scroll-view>
+    </scroll-view>

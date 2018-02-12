@@ -1,7 +1,6 @@
 //merger.js
 //获取应用实例
 var app = getApp()
-console.log(app)
 wx.showNavigationBarLoading()
 const formListMessage = [{
 	label: "土地亩数",
@@ -104,6 +103,7 @@ Page({
 		moreListMessage: lessListMessage,
 		moreTitle: "面积/售价",
 		isLookMoreState: true,
+		selectDisable: true,
 		num: 0, // input默认是0
 		minusStatus: 'normal' // 使用data数据对象设置样式名 
 	},
@@ -199,7 +199,20 @@ Page({
 		const { type } = dataset;
 		const { value } = e.detail;
 		try {
-			this.setCompareData[type] = value;
+			if (type === "plotRatio") {
+				if (value) {
+					this.setData({
+						selectDisable: false
+					})
+				} else {
+					this.setData({
+						selectDisable: true
+					})
+				}
+				this.setCompareData[type] = value;
+			} else {
+				this.setCompareData[type] = value;
+			}
 		} catch (error) {
 			throw error;
 		}
@@ -209,6 +222,10 @@ Page({
 		this.validataAjaxSet();
 	},
 	validataAjaxSet() {
+		wx.navigateTo({
+			url: '../swiperPage1/index?data=' + JSON.stringify({})
+		});
+		return false;
 		const newRequestObject = {};
 		for (const key in this.setCompareData) {
 			if (this.setCompareData[key] === null || this.setCompareData[key] === "") {
@@ -253,16 +270,16 @@ Page({
 							}
 						});
 						return;
-					case "profitMargin":
-						wx.showModal({
-							// title: "内容填写不完整",
-							content: "目标利润率不能为0",
-							showCancel: false,
-							success(d) {
-								console.log(d)
-							}
-						});
-						return;
+					// case "profitMargin":
+					// 	wx.showModal({
+					// 		// title: "内容填写不完整",
+					// 		content: "目标利润率不能为0",
+					// 		showCancel: false,
+					// 		success(d) {
+					// 			console.log(d)
+					// 		}
+					// 	});
+					// 	return;
 					case "highPrice":
 						wx.showModal({
 							// title: "内容填写不完整",
@@ -311,5 +328,17 @@ Page({
 				}
 			}
 		})
-	}
+	},
+	onShareAppMessage: function () {
+		return {
+			title: '花测' + '——' + app.globalData.shareProfile,
+			path: '/pages/merger/index',
+			success: function (res) {
+				// 转发成功
+			},
+			fail: function (res) {
+				// 转发失败
+			}
+		}
+	},
 })

@@ -6,18 +6,18 @@ var animation_interval = 16.7, n = 0, speed = 8;
 var requestAnimationFrameName;
 var ctx = wx.createCanvasContext('canvasArcCir');
 const requestResultObject = {
-	"accepHighestOffer": "0.00", //"可接受最高报价",
-	"corporateIncomeTax": "0.00", //"企业所得税",
-	"financialCost": "0.00", //"财务费用",
-	"landValueAddedTax": "0.00", //"土地增值税",
-	"managementCost": "0.00", //"管理费用",
-	"netInterestRate": "0.00", //"净利率",
-	"netProfit": "0.00", //"净利润",
-	"salesCost": "0.00", //"销售成本",
-	"salesRevenue": "0.00", //"销售收入",
-	"sellingExpenses": "0.00", //"销售费用",
-	"totalProfit": "0.00", //"利润总额",
-	"valueAddedTax": "0.00", //"增值税附加"
+	"accepHighestOffer": 0.00, //"可接受最高报价",
+	"corporateIncomeTax": 0.00, //"企业所得税",
+	"financialCost": 0.00, //"财务费用",
+	"landValueAddedTax": 0.00, //"土地增值税",
+	"managementCost": 0.00, //"管理费用",
+	"netInterestRate": 0.06, //"净利率",
+	"netProfit": 0.00, //"净利润",
+	"salesCost": 0.00, //"销售成本",
+	"salesRevenue": 0.00, //"销售收入",
+	"sellingExpenses": 0.00, //"销售费用",
+	"totalProfit": 0.00, //"利润总额",
+	"valueAddedTax": 0.00, //"增值税附加"
 	scoreName:""
 }
 Page({
@@ -40,7 +40,6 @@ Page({
 		return newApplicationData;
 	},
 	onLoad: function (options) {
-		console.log(options);
 		this.callbackData = JSON.parse(options.data);
 		wx.showNavigationBarLoading()
 	},
@@ -51,7 +50,7 @@ Page({
 			backgroundColor: "#143163"
 		})
 		step = 0;
-		const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData));
+		const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData.netInterestRate && this.callbackData || requestResultObject));
 		// 16等分圆环，一等分2.5%，-10~6区间分16份
 		if (resultDataObject.netInterestRate <= -10) {
 			n = 22.5;

@@ -73,3 +73,9 @@
     font-size: 24rpx;
     top: 56%;
 }
+
+.canvasArcCir{
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+}

@@ -3,7 +3,7 @@
 <view class="swiper-container">
     <view class="swiper-view">
         <view class="swiper-view-canvas">
-            <canvas style="width:{{canvasCircleWidth}}px; height:{{canvasCircleHeight}}px;" canvas-id="canvasArcCir"></canvas>
+            <canvas class="canvasArcCir" style="width:{{canvasCircleWidth}}px; height:{{canvasCircleHeight}}px;" canvas-id="canvasArcCir"></canvas>
             <view class="evaluation">{{resultDataObject.scoreName || "未知"}}</view>
             <view class="proportion">
                 <text>{{resultDataObject.netInterestRate || "0.00"}}</text>

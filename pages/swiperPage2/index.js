@@ -39,19 +39,20 @@ const viewListData = [{
 	number: ""
 }];
 const requestResultObject = {
-	"accepHighestOffer": "0.00", //"可接受最高报价",
-	"corporateIncomeTax": "0.00", //"企业所得税",
-	"financialCost": "0.00", //"财务费用",
-	"landValueAddedTax": "0.00", //"土地增值税",
-	"managementCost": "0.00", //"管理费用",
-	"netInterestRate": "0.00", //"净利率",
-	"netProfit": "0.00", //"净利润",
-	"salesCost": "0.00", //"销售成本",
-	"salesRevenue": "0.00", //"销售收入",
-	"sellingExpenses": "0.00", //"销售费用",
-	"totalProfit": "0.00", //"利润总额",
-	"valueAddedTax": "0.00", //"增值税附加"
-};
+	"accepHighestOffer": 0.00, //"可接受最高报价",
+	"corporateIncomeTax": 0.00, //"企业所得税",
+	"financialCost": 0.00, //"财务费用",
+	"landValueAddedTax": 0.00, //"土地增值税",
+	"managementCost": 0.00, //"管理费用",
+	"netInterestRate": 0.00, //"净利率",
+	"netProfit": 0.00, //"净利润",
+	"salesCost": 0.00, //"销售成本",
+	"salesRevenue": 0.00, //"销售收入",
+	"sellingExpenses": 0.00, //"销售费用",
+	"totalProfit": 0.00, //"利润总额",
+	"valueAddedTax": 0.00, //"增值税附加"
+	scoreName:""
+}
 Page({
 	data: {
 		canvasCircleWidth: wx.getSystemInfoSync().screenWidth - 80,
@@ -93,9 +94,8 @@ Page({
 			frontColor: "#ffffff",
 			backgroundColor: "#143163"
 		});
-		const resultDataObject = this.SetParentData(this.callbackData);
+		const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData.netInterestRate && this.callbackData || requestResultObject));		
 		const viewListData = this.SetListData(resultDataObject);
-
 		const numberCicle1 = (Number(resultDataObject.salesCost)).toFixed(2); // 销售成本
 		const numberCicle2 = (Number(resultDataObject.valueAddedTax) + Number(resultDataObject.landValueAddedTax) + Number(resultDataObject.corporateIncomeTax)).toFixed(2); // 税金=增值税+土地增值税+企业所得税
 		const numberCicle3 = (Number(resultDataObject.sellingExpenses) + Number(resultDataObject.managementCost) + Number(resultDataObject.financialCost)).toFixed(2); // 期间费用=销售费用+管理费用+财务费用
@@ -105,9 +105,6 @@ Page({
 			circle2: (numberCicle2 / resultDataObject.salesRevenue * 100).toFixed(2),
 			circle3: (numberCicle3 / resultDataObject.salesRevenue * 100).toFixed(2)
 		}
-		console.log(resultDataObject);
-		console.log(numberCicle1,numberCicle2,numberCicle3);
-		console.log(this.showCanvasObject);
 		this.setData({
 			resultDataObject,
 			viewListData,
@@ -124,8 +121,8 @@ Page({
 
 	},
 	navigateToNext: function () {
-		wx.navigateTo({
-			url: '../swiperPage1/index?data='+JSON.stringify(this.callbackData)
+		wx.navigateBack({
+			delta: 1
 		})
 	},
 	drawCircle1: function (n) {

@@ -222,10 +222,10 @@ Page({
 		this.validataAjaxSet();
 	},
 	validataAjaxSet() {
-		wx.navigateTo({
-			url: '../swiperPage1/index?data=' + JSON.stringify({})
-		});
-		return false;
+		// wx.navigateTo({
+		// 	url: '../swiperPage1/index?data=' + JSON.stringify({})
+		// });
+		// return false;
 		const newRequestObject = {};
 		for (const key in this.setCompareData) {
 			if (this.setCompareData[key] === null || this.setCompareData[key] === "") {

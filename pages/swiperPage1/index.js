@@ -5,6 +5,7 @@ var step = 0, startAngle = 1.5 * Math.PI, endAngle = 0;
 var animation_interval = 16.7, n = 0, speed = 8;
 var requestAnimationFrameName;
 var ctx = wx.createCanvasContext('canvasArcCir');
+var gradientColor = ['#00d0de', '#00e5a9'];
 const requestResultObject = {
 	"accepHighestOffer": 0.00, //"可接受最高报价",
 	"corporateIncomeTax": 0.00, //"企业所得税",
@@ -18,7 +19,8 @@ const requestResultObject = {
 	"sellingExpenses": 0.00, //"销售费用",
 	"totalProfit": 0.00, //"利润总额",
 	"valueAddedTax": 0.00, //"增值税附加"
-	scoreName:""
+	scoreName: "",
+	scoreType: 1
 }
 Page({
 	data: {
@@ -31,9 +33,9 @@ Page({
 		const newApplicationData = {};
 		for (const key in applicationData) {
 			const datas = applicationData[key];
-			if (key == "scoreName") {
+			if (key == "scoreName" || key == "scoreType") {
 				newApplicationData[key] = datas
-			}else{
+			} else {
 				newApplicationData[key] = key == "netInterestRate" ? (datas * 100).toFixed(2) : datas.toFixed(2);
 			}
 		}
@@ -59,6 +61,22 @@ Page({
 		} else {
 			n = (resultDataObject.netInterestRate + 11) * 22.5;
 		}
+
+		switch (resultDataObject.scoreType) {
+			case 1:
+				gradientColor = ['#fe998b', '#f78a9e'];
+				break;
+			case 2:
+				gradientColor = ['#fda085', '#f6d365'];
+				break;
+			case 3:
+			case 4:
+				gradientColor = ['#64b3f4', '#c2e59c'];
+				break;
+			default:
+				break;
+		}
+
 		this.setData({
 			resultDataObject
 		}, () => {
@@ -94,8 +112,8 @@ Page({
 
 			// 绘制渐变圆环
 			const grd = ctx.createLinearGradient(0, 0, x, 0)
-			grd.addColorStop(1, '#00e5a9')
-			grd.addColorStop(0, '#00d0de')
+			grd.addColorStop(0, gradientColor[0])
+			grd.addColorStop(1, gradientColor[1])
 			ctx.setStrokeStyle(grd);
 			ctx.setLineCap('round');
 			ctx.beginPath();

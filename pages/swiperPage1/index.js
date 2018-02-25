@@ -57,7 +57,7 @@ Page({
 		if (resultDataObject.netInterestRate <= -10) {
 			n = 22.5;
 		} else if (resultDataObject.netInterestRate >= 6) {
-			n = 360;
+			n = 300;
 		} else {
 			n = (resultDataObject.netInterestRate + 11) * 22.5;
 		}
@@ -70,8 +70,10 @@ Page({
 				gradientColor = ['#fda085', '#f6d365'];
 				break;
 			case 3:
-			case 4:
 				gradientColor = ['#64b3f4', '#c2e59c'];
+				break;
+			case 4:
+				gradientColor = ['#00d0de', '#00e5a9'];
 				break;
 			default:
 				break;
@@ -93,43 +95,86 @@ Page({
 	drawCircle: function () {
 		clearInterval(requestAnimationFrameName);
 		const that = this;
-		function drawArc(s, e) {
-			// ctx.setFillStyle('white');
-			// ctx.clearRect(0, 0, 240, 240);
-			// ctx.draw();
-			var x = that.data.canvasCircleWidth / 2,
-				y = that.data.canvasCircleWidth / 2,
-				radius = that.data.canvasCircleWidth / 4;
-
-			// 绘制浅蓝环形背景
-			ctx.setLineWidth(30);
-			ctx.setStrokeStyle('#406daf');
-			ctx.setLineCap('round');
-			ctx.beginPath();
-			ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-			ctx.stroke();
-			// ctx.draw();
-
-			// 绘制渐变圆环
-			const grd = ctx.createLinearGradient(0, 0, x, 0)
-			grd.addColorStop(0, gradientColor[0])
-			grd.addColorStop(1, gradientColor[1])
-			ctx.setStrokeStyle(grd);
-			ctx.setLineCap('round');
-			ctx.beginPath();
-			ctx.arc(x, y, radius, s, e, false);
-			ctx.stroke()
-			ctx.draw()
-		}
 		var animation = function () {
+			endAngle = step * Math.PI / 180 + startAngle;
 			if (step <= n) {
-				endAngle = step * Math.PI / 180 + startAngle;
-				drawArc(startAngle, endAngle);
+				that.drawArc(startAngle, endAngle);
 				step += speed;
 			} else {
 				clearInterval(requestAnimationFrameName);
+				that.setResultCicleAnimateBowen(startAngle, endAngle);
 			}
 		};
 		requestAnimationFrameName = setInterval(animation, animation_interval);
 	},
+	drawArc(s, e) {
+		const x = this.data.canvasCircleWidth / 2,
+			y = this.data.canvasCircleWidth / 2,
+			radius = this.data.canvasCircleWidth / 4;
+
+		// 绘制浅蓝环形背景
+		ctx.setLineWidth(30);
+		ctx.setStrokeStyle('#406daf');
+		ctx.setLineCap('round');
+		ctx.beginPath();
+		ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+		ctx.stroke();
+
+		// 绘制渐变圆环
+		const grd = ctx.createLinearGradient(0, 0, x, 0)
+		grd.addColorStop(0, gradientColor[0])
+		grd.addColorStop(1, gradientColor[1])
+		ctx.setStrokeStyle(grd);
+		ctx.setGlobalAlpha(1)
+		ctx.setLineCap('round');
+		ctx.beginPath();
+		ctx.arc(x, y, radius, s, e, false);
+		ctx.stroke()
+
+		ctx.draw()
+	},
+	setResultCicleAnimateBowen(s, e) {
+		ctx.clearRect(0, 0, 1000, 1000);
+		ctx.draw();
+		const x = this.data.canvasCircleWidth / 2,
+			y = this.data.canvasCircleWidth / 2,
+			radius = this.data.canvasCircleWidth / 4;
+
+		const arraysCombineAlpha = [[0, 55, 35], [58, 95, 75], [105, 135, 125], [136, 178, 160]]
+		const rNumber = arraysCombineAlpha.map(() => Math.random() * 40 + 40);
+		const rNumber2 = arraysCombineAlpha.map(() => Math.random() * 20 + 20);
+		const radiusCicle = radius + 13;
+		arraysCombineAlpha.map((d, k) => {
+			const round = d.map(n => 90 - n); // 控制点的度数，结束点的度数
+			let roundCicle1, roundCicle2, roundCicle3;
+			roundCicle1 = [Math.sin(round[0] * Math.PI / 180) * radiusCicle + x, Math.abs(Math.cos(round[0] * Math.PI / 180)) * radiusCicle + y];
+			roundCicle2 = [Math.sin(round[1] * Math.PI / 180) * radiusCicle + x, Math.abs(Math.cos(round[1] * Math.PI / 180)) * radiusCicle + y];
+			roundCicle3 = [Math.sin(round[2] * Math.PI / 180) * (radiusCicle + rNumber[k] + rNumber2[k]) + x, Math.abs(Math.cos(round[2] * Math.PI / 180)) * (radiusCicle + rNumber[k] + rNumber2[k]) + y];
+
+			ctx.beginPath()
+			ctx.moveTo(roundCicle1[0], roundCicle1[1])
+			ctx.quadraticCurveTo(roundCicle3[0], roundCicle3[1], roundCicle2[0], roundCicle2[1])
+			ctx.setFillStyle(gradientColor[1])
+			ctx.setGlobalAlpha(0.1)
+			ctx.fill()
+		})
+		const arraysCombine = [[4, 53, 35], [62, 92, 75], [115, 133, 125], [139, 176, 160]]
+
+		arraysCombine.map((d, k) => {
+			const round = d.map(n => 90 - n); // 控制点的度数，结束点的度数
+			let roundCicle1, roundCicle2, roundCicle3;
+			roundCicle1 = [Math.sin(round[0] * Math.PI / 180) * radiusCicle + x, Math.abs(Math.cos(round[0] * Math.PI / 180)) * radiusCicle + y];
+			roundCicle2 = [Math.sin(round[1] * Math.PI / 180) * radiusCicle + x, Math.abs(Math.cos(round[1] * Math.PI / 180)) * radiusCicle + y];
+			roundCicle3 = [Math.sin(round[2] * Math.PI / 180) * (radiusCicle + rNumber[k]) + x, Math.abs(Math.cos(round[2] * Math.PI / 180)) * (radiusCicle + rNumber[k]) + y];
+
+			ctx.beginPath()
+			ctx.moveTo(roundCicle1[0], roundCicle1[1])
+			ctx.quadraticCurveTo(roundCicle3[0], roundCicle3[1], roundCicle2[0], roundCicle2[1])
+			ctx.setFillStyle(gradientColor[1])
+			ctx.setGlobalAlpha(0.5)
+			ctx.fill()
+		})
+
+		this.drawArc(s, e); // 绘制一遍静态图
+	}
 })

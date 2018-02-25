@@ -184,5 +184,17 @@ Page({
 		ctx.arc(x, y, radius, s, e, false);
 		ctx.stroke();
 		ctx.draw();
-	}
+	},
+	onShareAppMessage: function () {
+		return {
+			title: '花测' + '——' + app.globalData.shareProfile,
+			path: '/pages/merger/index',
+			success: function (res) {
+				// 转发成功
+			},
+			fail: function (res) {
+				// 转发失败
+			}
+		}
+	},
 })

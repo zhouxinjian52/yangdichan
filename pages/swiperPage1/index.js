@@ -57,7 +57,7 @@ Page({
 		if (resultDataObject.netInterestRate <= -10) {
 			n = 22.5;
 		} else if (resultDataObject.netInterestRate >= 6) {
-			n = 300;
+			n = 360;
 		} else {
 			n = (resultDataObject.netInterestRate + 11) * 22.5;
 		}
@@ -102,7 +102,9 @@ Page({
 				step += speed;
 			} else {
 				clearInterval(requestAnimationFrameName);
-				that.setResultCicleAnimateBowen(startAngle, endAngle);
+				if (n >= 180) {
+					that.setResultCicleAnimateBowen(startAngle, endAngle);
+				}
 			}
 		};
 		requestAnimationFrameName = setInterval(animation, animation_interval);
@@ -181,5 +183,17 @@ Page({
 		})
 
 		this.drawArc(s, e); // 绘制一遍静态图
-	}
+	},
+	onShareAppMessage: function () {
+		return {
+			title: '花测' + '——' + app.globalData.shareProfile,
+			path: '/pages/merger/index',
+			success: function (res) {
+				// 转发成功
+			},
+			fail: function (res) {
+				// 转发失败
+			}
+		}
+	},
 })

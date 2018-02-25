@@ -136,14 +136,19 @@ Page({
 	setResultCicleAnimateBowen(s, e) {
 		ctx.clearRect(0, 0, 1000, 1000);
 		ctx.draw();
-		const x = this.data.canvasCircleWidth / 2,
-			y = this.data.canvasCircleWidth / 2,
-			radius = this.data.canvasCircleWidth / 4;
+		const x = this.data.canvasCircleWidth / 2, // 获取画布的中心坐标x
+			y = this.data.canvasCircleWidth / 2, // 获取画布的中心坐标y
+			radius = this.data.canvasCircleWidth / 4; // 圆环的最大半径
 
+		// 绘制圆环溢出效果的坐标集
 		const arraysCombineAlpha = [[0, 55, 35], [58, 95, 75], [105, 135, 125], [136, 178, 160]]
+		// 颜色较深的半径随机数
 		const rNumber = arraysCombineAlpha.map(() => Math.random() * 40 + 40);
+		// 颜色较浅的半径随机数
 		const rNumber2 = arraysCombineAlpha.map(() => Math.random() * 20 + 20);
+		// 圆环半径圆环效果绘制开始点
 		const radiusCicle = radius + 13;
+		// 绘制颜色较浅的静态效果
 		arraysCombineAlpha.map((d, k) => {
 			const round = d.map(n => 90 - n); // 控制点的度数，结束点的度数
 			let roundCicle1, roundCicle2, roundCicle3;
@@ -158,8 +163,8 @@ Page({
 			ctx.setGlobalAlpha(0.1)
 			ctx.fill()
 		})
+		// 绘制颜色较深的静态效果
 		const arraysCombine = [[4, 53, 35], [62, 92, 75], [115, 133, 125], [139, 176, 160]]
-
 		arraysCombine.map((d, k) => {
 			const round = d.map(n => 90 - n); // 控制点的度数，结束点的度数
 			let roundCicle1, roundCicle2, roundCicle3;

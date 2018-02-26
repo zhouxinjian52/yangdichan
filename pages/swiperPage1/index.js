@@ -32,7 +32,7 @@ Page({
 	SetParentData(applicationData) {
 		const newApplicationData = {};
 		for (const key in applicationData) {
-			const datas = applicationData[key];
+			const datas = applicationData[key] || 0.00;
 			if (key == "scoreName" || key == "scoreType") {
 				newApplicationData[key] = datas
 			} else {
@@ -52,14 +52,14 @@ Page({
 			backgroundColor: "#143163"
 		})
 		step = 0;
-		const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData.netInterestRate && this.callbackData || requestResultObject));
+		const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData || requestResultObject));
 		// 16等分圆环，一等分2.5%，-10~6区间分16份
 		if (resultDataObject.netInterestRate <= -10) {
 			n = 22.5;
 		} else if (resultDataObject.netInterestRate >= 6) {
 			n = 360;
 		} else {
-			n = (resultDataObject.netInterestRate + 11) * 22.5;
+			n = (Number(resultDataObject.netInterestRate) + 10) * 22.5;
 		}
 
 		switch (resultDataObject.scoreType) {
@@ -102,9 +102,8 @@ Page({
 				step += speed;
 			} else {
 				clearInterval(requestAnimationFrameName);
-				if (n >= 180) {
-					that.setResultCicleAnimateBowen(startAngle, endAngle);
-				}
+				that.setResultCicleAnimateBowen(startAngle, endAngle);
+
 			}
 		};
 		requestAnimationFrameName = setInterval(animation, animation_interval);
@@ -143,7 +142,14 @@ Page({
 			radius = this.data.canvasCircleWidth / 4; // 圆环的最大半径
 
 		// 绘制圆环溢出效果的坐标集
-		const arraysCombineAlpha = [[0, 55, 35], [58, 95, 75], [105, 135, 125], [136, 178, 160]]
+		let arraysCombineAlpha = []
+		if (n >= 90 && n <= 180) {
+			arraysCombineAlpha = [[0, 55, 35], [58, 95, 75]]
+		} else if (n >= 180 && n <= 240) {
+			arraysCombineAlpha = [[0, 55, 35], [58, 95, 75], [105, 135, 125]]
+		} else if (n >= 270) {
+			arraysCombineAlpha = [[0, 55, 35], [58, 95, 75], [105, 135, 125], [136, 178, 160]]
+		}
 		// 颜色较深的半径随机数
 		const rNumber = arraysCombineAlpha.map(() => Math.random() * 40 + 40);
 		// 颜色较浅的半径随机数
@@ -166,7 +172,14 @@ Page({
 			ctx.fill()
 		})
 		// 绘制颜色较深的静态效果
-		const arraysCombine = [[4, 53, 35], [62, 92, 75], [115, 133, 125], [139, 176, 160]]
+		let arraysCombine = []
+		if (n >= 90 && n <= 180) {
+			arraysCombine = [[4, 53, 35], [62, 92, 75]]
+		} else if (n >= 180 && n <= 240) {
+			arraysCombine = [[4, 53, 35], [62, 92, 75], [115, 133, 125]]
+		} else if (n >= 270) {
+			arraysCombine = [[4, 53, 35], [62, 92, 75], [115, 133, 125], [139, 176, 160]]
+		}
 		arraysCombine.map((d, k) => {
 			const round = d.map(n => 90 - n); // 控制点的度数，结束点的度数
 			let roundCicle1, roundCicle2, roundCicle3;

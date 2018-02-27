@@ -104,7 +104,7 @@ Page({
 		moreTitle: "面积/售价",
 		isLookMoreState: true,
 		selectDisable: true,
-		num: 0, // input默认是0
+		num: 6, // input默认是6
 		minusStatus: 'normal' // 使用data数据对象设置样式名 
 	},
 	onLoad: function (options) {

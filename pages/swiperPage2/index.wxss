@@ -100,4 +100,5 @@
 .item-number {
     flex: 1;
     font-size: 26rpx;
+    text-align: right;
 }

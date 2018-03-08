@@ -62,6 +62,14 @@
     font-size: 32rpx;
 }
 
+.merger-focus {
+    border-bottom: 1px solid #47b4d3 !important;
+}
+
+.merger-error {
+    border-bottom: 1px solid red !important;
+}
+
 .phcolor {
     color: #dedede;
 }
@@ -198,4 +206,8 @@
 
 .stepper .disabled {
     color: #eee;
+}
+
+.hidden {
+    display: none;
 }

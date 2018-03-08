@@ -6,20 +6,22 @@
         <block wx:for="{{formListMessage}}" wx:key="merger">
             <!-- 1 -->
             <view wx:if="{{item.typeId==1}}" class="merger-list">
-                <view class="flex-module flex-label">{{item.label}}</view>
-                <view class="flex-module flex-input">
+                <view class="flex-module flex-label {{item.hasState}}">{{item.label}}</view>
+                <view class="flex-module flex-input {{item.hasState}}">
                     <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}{{item.placeHolder}}"
-                        type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" />
+                        type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState"
+                        bindblur="setBlurState" />
                 </view>
-                <view wx:if="{{item.unit}}" class="flex-module flex-unit">{{item.unit}}</view>
+                <view wx:if="{{item.unit}}" class="flex-module flex-unit {{item.hasState}}">{{item.unit}}</view>
                 <!-- <view wx:if="{{item.isrequest}}" class="flex-module flex-icon">*</view> -->
             </view>
             <!-- 2 -->
             <view wx:elif="{{item.typeId==2}}" class="merger-list">
-                <view class="flex-module flex-label">{{item.label}}</view>
-                <view class="flex-module flex-input">
+                <view class="flex-module flex-label {{item.hasState}}">{{item.label}}</view>
+                <view class="flex-module flex-input {{item.hasState}}">
                     <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}{{item.placeHolder}}"
-                        type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" />
+                        type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState"
+                        bindblur="setBlurState" />
                     <!-- <view wx:if="{{item.isrequest}}" class="flex-icon">*</view> -->
                 </view>
                 <view class="flex-module flex-select {{selectDisable?'flex-select-disabled':'flex-select-current'}}">
@@ -53,34 +55,42 @@
 
         <!-- 面积、售价模块 -->
         <block wx:for="{{moreListMessage}}" wx:key="merger">
-            <view wx:if="{{item.typeId==1}}" class="merger-list-area">
+            <view wx:if="{{item.typeId==1}}" class="merger-list-area {{isLookMoreState?item.typeArea=='highAcreage'?'':'hidden':''}}">
                 <view class="flex-area-label">{{item.label}}</view>
-                <view class="flex-area-price no-margin hasBottomLine">
+                <view class="flex-area-price no-margin hasBottomLine {{item.hasState}}">
                     <view>
                         <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}填写售价"
-                            type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" />
+                            type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState2"
+                            bindblur="setBlurState2" />
                     </view>
                     <view class="merger-unit">
-                        ￥/㎡
+                        <text wx:if="{{item.typeArea=='parkingAcreage'}}">
+                            ￥/个
+                        </text>
+                        <text wx:else>
+                            ￥/㎡
+                        </text>
                         <!-- <text wx:if="{{item.isrequest}}">*</text> -->
                     </view>
                 </view>
-                <view class="flex-area-price flex-area-price hasBottomLine">
+                <view class="flex-area-price flex-area-price hasBottomLine {{item.hasState}}">
                     <view wx:if="{{item.typeArea=='parkingAcreage'}}">
                         <input class="flex-input-dom flex-left" maxlength="9" disabled/>
                     </view>
                     <view wx:else>
                         <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写面积" type="digit" bindinput="bindGetInputValue"
-                            data-type="{{item.typeArea}}" />
+                            data-type="{{item.typeArea}}" data-index="{{index}}" bindfocus="setFocusState2" bindblur="setBlurState2"
+                        />
                     </view>
                     <text wx:if="{{item.typeArea!=='parkingAcreage'}}" class="merger-unit">㎡</text>
                 </view>
             </view>
-            <view wx:if="{{item.typeId==2}}" class="merger-list-area hasBottomLine">
+            <view wx:if="{{item.typeId==2}}" class="merger-list-area hasBottomLine {{item.hasState}} {{isLookMoreState?'hidden':''}}">
                 <view class="flex-module2 flex-label">{{item.label}}</view>
                 <view class="flex-module2 flex-input">
                     <input placeholder-class="phcolor" class="flex-input-dom" maxlength="99" placeholder="填写售价" type="digit" bindinput="bindGetInputValue"
-                        data-type="{{item.type}}" />
+                        data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState2" bindblur="setBlurState2"
+                    />
                 </view>
                 <view class="flex-module2 flex-unit">元</view>
             </view>

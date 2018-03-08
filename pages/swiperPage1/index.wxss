@@ -28,6 +28,7 @@
     align-items: center;
     flex: 4;
     position: relative;
+    text-align: center;
 }
 
 .swiper-view-number {
@@ -51,6 +52,7 @@
 
 .evaluation {
     position: absolute;
+    width: 100%;
     color: #fff;
     font-size: 42rpx;
     top: 28%;
@@ -58,6 +60,7 @@
 
 .proportion {
     position: absolute;
+    width: 100%;
     color: #fff;
     font-size: 100rpx;
     top: 37%;
@@ -69,6 +72,7 @@
 
 .rateTitle {
     position: absolute;
+    width: 100%;
     color: #9ca7bb;
     font-size: 24rpx;
     top: 56%;

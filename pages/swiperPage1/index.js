@@ -29,18 +29,18 @@ Page({
 		resultDataObject: requestResultObject,
 		indicatorDots: true // 显示面板的点点
 	},
-	SetParentData(applicationData) {
-		const newApplicationData = {};
-		for (const key in applicationData) {
-			const datas = applicationData[key] || 0.00;
-			if (key == "scoreName" || key == "scoreType") {
-				newApplicationData[key] = datas
-			} else {
-				newApplicationData[key] = key == "netInterestRate" ? (datas * 100).toFixed(2) : datas.toFixed(2);
-			}
-		}
-		return newApplicationData;
-	},
+	// SetParentData(applicationData) {
+	// 	const newApplicationData = {};
+	// 	for (const key in applicationData) {
+	// 		const datas = applicationData[key] || 0.00;
+	// 		if (key == "scoreName" || key == "scoreType") {
+	// 			newApplicationData[key] = datas
+	// 		} else {
+	// 			newApplicationData[key] = key == "netInterestRate" ? (datas * 100).toFixed(2) : datas.toFixed(2);
+	// 		}
+	// 	}
+	// 	return newApplicationData;
+	// },
 	onLoad: function (options) {
 		this.callbackData = JSON.parse(options.data);
 		wx.showNavigationBarLoading()
@@ -52,14 +52,15 @@ Page({
 			backgroundColor: "#143163"
 		})
 		step = 0;
-		const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData || requestResultObject));
+		const resultDataObject = Object.assign({}, this.callbackData || requestResultObject);
 		// 16等分圆环，一等分2.5%，-10~6区间分16份
-		if (resultDataObject.netInterestRate <= -10) {
+		const netInterestRate = resultDataObject.netInterestRate && Number(resultDataObject.netInterestRate) || requestResultObject.netInterestRate
+		if (netInterestRate <= -10) {
 			n = 22.5;
-		} else if (resultDataObject.netInterestRate >= 6) {
+		} else if (netInterestRate >= 6) {
 			n = 360;
 		} else {
-			n = (Number(resultDataObject.netInterestRate) + 10) * 22.5;
+			n = (netInterestRate + 10) * 22.5;
 		}
 
 		switch (resultDataObject.scoreType) {

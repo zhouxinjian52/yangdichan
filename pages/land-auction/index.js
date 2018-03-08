@@ -7,6 +7,7 @@ const formListMessage = [{
 	type: "landAcres",
 	typeId: 1, // 输入框类
 	isrequest: true,
+	hasState: "",
 	placeHolder: "填写亩数",
 	unit: "亩"
 }, {
@@ -15,6 +16,7 @@ const formListMessage = [{
 	typeId: 2, // 下拉框类
 	array: ["方案1", "方案2", "方案3", "方案4", "方案5"],
 	isrequest: true,
+	hasState: "",
 	placeHolder: "填写容积率",
 	unit: ""
 }, {
@@ -22,6 +24,7 @@ const formListMessage = [{
 	type: "landAcresPrice",
 	typeId: 1,
 	isrequest: true,
+	hasState: "",
 	placeHolder: "填写价格",
 	unit: "万元/亩"
 }, {
@@ -29,62 +32,66 @@ const formListMessage = [{
 	type: "profitMargin",
 	typeId: 3,
 	isrequest: false,
+	hasState: "",
 	placeHolder: "",
 	unit: ""
-}];
-const lessListMessage = [{
-	label: "高层",
-	type: "highPrice",
-	typeArea: "highAcreage",
-	isrequest: true,
-	typeId: 1
 }];
 const moreListMessage = [{
 	label: "高层",
 	type: "highPrice",
 	typeArea: "highAcreage",
 	isrequest: true,
+	hasState: "",
 	typeId: 1
 }, {
 	label: "洋房",
 	type: "foreignStyleHousePrice",
 	typeArea: "foreignStyleHouseAcreage",
+	hasState: "",
 	typeId: 1
 }, {
 	label: "别墅",
 	type: "villaPrice",
 	typeArea: "villaAcreage",
+	hasState: "",
 	typeId: 1
 }, {
 	label: "类住宅",
 	type: "residencePrice",
 	typeArea: "residenceAcreage",
+	hasState: "",
 	typeId: 1
 }, {
 	label: "商铺",
 	type: "shopsPrice",
 	typeArea: "shopsAcreage",
+	hasState: "",
 	typeId: 1
 }, {
 	label: "车位",
 	type: "parkingPrice",
 	typeArea: "parkingAcreage",
+	hasState: "",
 	typeId: 1
 }, {
 	label: "高层精装标准",
 	type: "highHardcover",
+	hasState: "",
 	typeId: 2
 }, {
 	label: "洋房精装标准",
 	type: "foreignStyleHouseHardcover",
+	hasState: "",
 	typeId: 2
 }, {
 	label: "别墅精装标准",
 	type: "villaHardcover",
+	hasState: "",
 	typeId: 2
 }, {
 	label: "类住宅精装标准",
 	type: "residenceHardcover",
+	hasState: "",
 	typeId: 2
 }];
 
@@ -92,8 +99,7 @@ Page({
 	data: {
 		formListMessage: formListMessage,
 		selectIndex: 0,
-		// errorList: [1, 5],
-		moreListMessage: lessListMessage,
+		moreListMessage: moreListMessage,
 		moreTitle: "面积/售价",
 		isLookMoreState: true,
 		selectDisable: true,
@@ -182,7 +188,6 @@ Page({
 	},
 	changeMoreState: function (e) {
 		this.setData({
-			moreListMessage: this.data.isLookMoreState ? moreListMessage : lessListMessage,
 			isLookMoreState: !this.data.isLookMoreState
 		})
 	},
@@ -215,6 +220,7 @@ Page({
 	},
 	validataAjaxSet() {
 		const newRequestObject = {};
+		const _this = this;
 		for (const key in this.setCompareData) {
 			if (this.setCompareData[key] === null || this.setCompareData[key] === "") {
 				switch (key) {
@@ -224,7 +230,9 @@ Page({
 							content: "土地亩数不能为空",
 							showCancel: false,
 							success(d) {
-								console.log(d)
+								_this.setData({
+									'formListMessage[0].hasState': "merger-error"
+								})
 							}
 						});
 						return;
@@ -234,7 +242,9 @@ Page({
 							content: "容积率不能为空",
 							showCancel: false,
 							success(d) {
-								console.log(d)
+								_this.setData({
+									'formListMessage[1].hasState': "merger-error"
+								})
 							}
 						});
 						return;
@@ -244,7 +254,9 @@ Page({
 							content: "成交价不能为空",
 							showCancel: false,
 							success(d) {
-								console.log(d)
+								_this.setData({
+									'formListMessage[2].hasState': "merger-error"
+								})
 							}
 						});
 						return;
@@ -264,7 +276,9 @@ Page({
 							content: "高层售价不能为空",
 							showCancel: false,
 							success(d) {
-								console.log(d)
+								_this.setData({
+									'moreListMessage[0].hasState': "merger-error"
+								})
 							}
 						});
 						return;
@@ -305,6 +319,38 @@ Page({
 						break;
 				}
 			}
+		})
+	},
+	setFocusState: function (e) {
+		const { dataset } = e.currentTarget;
+		const { index } = dataset;
+		const temp = `formListMessage[${index}].hasState`;
+		this.setData({
+			[temp]: "merger-focus"
+		})
+	},
+	setBlurState: function (e) {
+		const { dataset } = e.currentTarget;
+		const { index } = dataset;
+		const temp = `formListMessage[${index}].hasState`;
+		this.setData({
+			[temp]: ""
+		})
+	},
+	setFocusState2: function (e) {
+		const { dataset } = e.currentTarget;
+		const { index } = dataset;
+		const temp = `moreListMessage[${index}].hasState`;
+		this.setData({
+			[temp]: "merger-focus"
+		})
+	},
+	setBlurState2: function (e) {
+		const { dataset } = e.currentTarget;
+		const { index } = dataset;
+		const temp = `moreListMessage[${index}].hasState`;
+		this.setData({
+			[temp]: ""
 		})
 	},
 	onShareAppMessage: function () {

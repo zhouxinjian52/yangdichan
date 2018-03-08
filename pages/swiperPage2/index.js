@@ -74,18 +74,18 @@ Page({
 		viewListData: viewListData,
 		indicatorDots: true // 显示面板的点点
 	},
-	SetParentData(applicationData) {
-		const newApplicationData = {};
-		for (const key in applicationData) {
-			const datas = applicationData[key] || 0.00;
-			if (key == "scoreName") {
-				newApplicationData[key] = datas
-			}else{
-				newApplicationData[key] = key == "netInterestRate" ? (datas * 100).toFixed(2) : datas.toFixed(2);
-			}
-		}
-		return newApplicationData;
-	},
+	// SetParentData(applicationData) {
+	// 	const newApplicationData = {};
+	// 	for (const key in applicationData) {
+	// 		const datas = applicationData[key] || 0.00;
+	// 		if (key == "scoreName") {
+	// 			newApplicationData[key] = datas
+	// 		}else{
+	// 			newApplicationData[key] = key == "netInterestRate" ? (datas * 100).toFixed(2) : datas.toFixed(2);
+	// 		}
+	// 	}
+	// 	return newApplicationData;
+	// },
 	SetListData(applicationData) {
 		const newviewListData = [];
 		viewListData.map((data, k) => {
@@ -104,11 +104,12 @@ Page({
 			frontColor: "#ffffff",
 			backgroundColor: "#143163"
 		});
-		const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData || requestResultObject));		
+		// const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData || requestResultObject));
+		const resultDataObject = Object.assign({}, this.callbackData || requestResultObject);	
 		const viewListData = this.SetListData(resultDataObject);
-		const numberCicle1 = (Number(resultDataObject.salesCost || 0)).toFixed(2); // 销售成本
-		const numberCicle2 = (Number(resultDataObject.valueAddedTax || 0) + Number(resultDataObject.landValueAddedTax || 0) + Number(resultDataObject.corporateIncomeTax || 0)).toFixed(2); // 税金=增值税+土地增值税+企业所得税
-		const numberCicle3 = (Number(resultDataObject.sellingExpenses || 0) + Number(resultDataObject.managementCost || 0) + Number(resultDataObject.financialCost || 0)).toFixed(2); // 期间费用=销售费用+管理费用+财务费用
+		const numberCicle1 = Number(resultDataObject.salesCost); // 销售成本
+		const numberCicle2 = Number(resultDataObject.valueAddedTax) + Number(resultDataObject.landValueAddedTax) + Number(resultDataObject.corporateIncomeTax); // 税金=增值税+土地增值税+企业所得税
+		const numberCicle3 = Number(resultDataObject.sellingExpenses) + Number(resultDataObject.managementCost) + Number(resultDataObject.financialCost); // 期间费用=销售费用+管理费用+财务费用
 
 		this.showCanvasObject = {
 			circle1: (numberCicle1 / resultDataObject.salesRevenue * 100).toFixed(2),

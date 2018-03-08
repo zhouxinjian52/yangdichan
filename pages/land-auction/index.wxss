@@ -37,12 +37,12 @@
 }
 
 .flex-input {
-    flex: 1.5;
+    flex: 1;
     justify-content: flex-end;
 }
 
 .flex-select {
-    flex: 1.1;
+    flex: 1.5;
     margin-left: 20rpx;
     font-size: 32rpx;
     justify-content: flex-end;

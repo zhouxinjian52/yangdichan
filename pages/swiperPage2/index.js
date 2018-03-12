@@ -61,7 +61,9 @@ const requestResultObject = {
 	"sellingExpenses": 0.00, //"销售费用",
 	"totalProfit": 0.00, //"利润总额",
 	"valueAddedTax": 0.00, //"增值税附加"
-	scoreName:""
+	scoreName: "",
+	taxTotals: 0.00, //税金
+	costTotals: 0.00 // 期间费用
 }
 Page({
 	data: {
@@ -105,16 +107,16 @@ Page({
 			backgroundColor: "#143163"
 		});
 		// const resultDataObject = this.SetParentData(Object.assign({}, this.callbackData || requestResultObject));
-		const resultDataObject = Object.assign({}, this.callbackData || requestResultObject);	
+		const resultDataObject = Object.assign({}, this.callbackData || requestResultObject);
 		const viewListData = this.SetListData(resultDataObject);
-		const numberCicle1 = Number(resultDataObject.salesCost); // 销售成本
-		const numberCicle2 = Number(resultDataObject.valueAddedTax) + Number(resultDataObject.landValueAddedTax) + Number(resultDataObject.corporateIncomeTax); // 税金=增值税+土地增值税+企业所得税
-		const numberCicle3 = Number(resultDataObject.sellingExpenses) + Number(resultDataObject.managementCost) + Number(resultDataObject.financialCost); // 期间费用=销售费用+管理费用+财务费用
+		const numberCicle1 = Number(resultDataObject.salesCost.replace(',', '')); // 销售成本
+		const numberCicle2 = Number(resultDataObject.taxTotals.replace(',', '')); // 税金=增值税+土地增值税+企业所得税
+		const numberCicle3 = Number(resultDataObject.costTotals.replace(',', '')); // 期间费用=销售费用+管理费用+财务费用
 
 		this.showCanvasObject = {
-			circle1: (numberCicle1 / resultDataObject.salesRevenue * 100).toFixed(2),
-			circle2: (numberCicle2 / resultDataObject.salesRevenue * 100).toFixed(2),
-			circle3: (numberCicle3 / resultDataObject.salesRevenue * 100).toFixed(2)
+			circle1: (numberCicle1 / Number(resultDataObject.salesRevenue.replace(',', '')) * 100).toFixed(2),
+			circle2: (numberCicle2 / Number(resultDataObject.salesRevenue.replace(',', '')) * 100).toFixed(2),
+			circle3: (numberCicle3 / Number(resultDataObject.salesRevenue.replace(',', '')) * 100).toFixed(2)
 		}
 		this.setData({
 			resultDataObject,

@@ -14,7 +14,7 @@ const formListMessage = [{
 	label: "容积率",
 	type: "plotRatio",
 	typeId: 2, // 下拉框类
-	array: ["方案1", "方案2", "方案3", "方案4", "方案5"],
+	array: [],
 	isrequest: true,
 	hasState: "",
 	placeHolder: "填写容积率",
@@ -50,56 +50,66 @@ const moreListMessage = [{
 	typeArea: "highAcreage",
 	isrequest: true,
 	hasState: "",
+	data: null,
 	typeId: 1
 }, {
 	label: "洋房",
 	type: "foreignStyleHousePrice",
 	typeArea: "foreignStyleHouseAcreage",
 	hasState: "",
+	data: null,
 	typeId: 1
 }, {
 	label: "别墅",
 	type: "villaPrice",
 	typeArea: "villaAcreage",
 	hasState: "",
+	data: null,
 	typeId: 1
 }, {
 	label: "类住宅",
 	type: "residencePrice",
 	typeArea: "residenceAcreage",
 	hasState: "",
+	data: null,
 	typeId: 1
 }, {
 	label: "商铺",
 	type: "shopsPrice",
 	typeArea: "shopsAcreage",
 	hasState: "",
+	data: null,
 	typeId: 1
 }, {
 	label: "车位",
 	type: "parkingPrice",
 	typeArea: "parkingAcreage",
 	hasState: "",
+	data: null,
 	typeId: 1
 }, {
 	label: "高层精装标准",
-	type: "highHardcover",
+	typeArea: "highHardcover",
 	hasState: "",
+	data: null,
 	typeId: 2
 }, {
 	label: "洋房精装标准",
-	type: "foreignStyleHouseHardcover",
+	typeArea: "foreignStyleHouseHardcover",
 	hasState: "",
+	data: null,
 	typeId: 2
 }, {
 	label: "别墅精装标准",
-	type: "villaHardcover",
+	typeArea: "villaHardcover",
 	hasState: "",
+	data: null,
 	typeId: 2
 }, {
 	label: "类住宅精装标准",
-	type: "residenceHardcover",
+	typeArea: "residenceHardcover",
 	hasState: "",
+	data: null,
 	typeId: 2
 }];
 
@@ -107,21 +117,20 @@ Page({
 	data: {
 		formListMessage: formListMessage,
 		selectIndex: 0,
+		planName: [],
 		moreListMessage: moreListMessage,
 		moreTitle: "面积/售价",
 		isLookMoreState: true,
 		selectDisable: true,
+		selectInputDisable: true, // 输入框默认灰质
 		num: 6, // input默认是6
 		minusStatus: 'normal' // 使用data数据对象设置样式名 
 	},
 	onLoad: function (options) {
 		console.log(options);
-	},
-	onReady: function () {
 		// 设置请求接口参数
 		this.setCompareData = {
 			isSave: null, // 是否保存(默认不保存)
-			plan: 1, // 方案1-5 默认1
 			landAcres: null, // 土地亩数
 			plotRatio: null, // 容积率
 			landPrice: null, //有票地价
@@ -143,6 +152,8 @@ Page({
 			shopsAcreage: null,//商铺面积
 			parkingPrice: null//车位售价
 		}
+	},
+	onReady: function () {
 		wx.hideNavigationBarLoading()
 	},
 	/* 点击减号 */
@@ -194,6 +205,7 @@ Page({
 		this.setData({
 			selectIndex: e.detail.value
 		})
+		this.getMsgDataList()
 	},
 	changeMoreState: function (e) {
 		this.setData({
@@ -204,15 +216,46 @@ Page({
 		const { dataset } = e.currentTarget;
 		const { type } = dataset;
 		const { value } = e.detail;
+		const _this = this;
 		try {
 			if (type === "plotRatio") {
 				if (value) {
-					this.setData({
-						selectDisable: false
+					wx.request({
+						url: app.globalData.requestUrl + "land/getSelectPlan",
+						data: { plot: value },
+						success: function (res) {
+							switch (res.data.code) {
+								case 0:
+									_this.setData({
+										'formListMessage[1].array': res.data.datas,
+										selectIndex: 0,
+										planName: res.data.datas,
+										selectDisable: false
+									})
+									_this.getMsgDataList()
+									break;
+								default:
+									wx.showModal({
+										title: "请求方案失败",
+										showCancel: false,
+										success(d) {
+											// console.log(d)
+										}
+									});
+									break;
+							}
+						}
 					})
 				} else {
 					this.setData({
 						selectDisable: true
+					})
+				}
+				this.setCompareData[type] = value;
+			} else if (type === "landAcres") {
+				if (value) {
+					_this.setData({
+						selectInputDisable: false
 					})
 				}
 				this.setCompareData[type] = value;
@@ -222,6 +265,43 @@ Page({
 		} catch (error) {
 			throw error;
 		}
+	},
+	getMsgDataList() {
+		const _this = this;
+		wx.request({
+			url: app.globalData.requestUrl + "land/getSelectPlanValue",
+			data: { plot: this.setCompareData.plotRatio, landAcres: this.setCompareData.landAcres, planName: this.data.planName[this.data.selectIndex] },
+			success: function (res) {
+				switch (res.data.code) {
+					case 0:
+						const objectData = res.data.data;
+						_this.data.moreListMessage.map((d, k) => {
+							const temp = `moreListMessage[${k}].data`;
+							_this.setData({
+								[temp]: null
+							})
+							_this.setCompareData[d.typeArea] = null;
+						})
+						for (const key in objectData) {
+							if (objectData.hasOwnProperty(key)) {
+								const value = objectData[key];
+								_this.data.moreListMessage.map((d, k) => {
+									const temp = `moreListMessage[${k}].data`;
+									if (d.typeArea === key) {
+										_this.setData({
+											[temp]: value
+										})
+										_this.setCompareData[d.typeArea] = value;
+									}
+								})
+							}
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		})
 	},
 	validataAjaxSetSave() {
 		this.setCompareData["isSave"] = true;

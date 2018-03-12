@@ -42,10 +42,13 @@
 }
 
 .flex-select {
-    flex: 1.5;
+    flex: 3;
     margin-left: 20rpx;
     font-size: 32rpx;
     justify-content: flex-end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .flex-select-disabled {

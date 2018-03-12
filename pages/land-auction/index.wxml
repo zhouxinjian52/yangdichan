@@ -19,7 +19,7 @@
             <view wx:elif="{{item.typeId==2}}" class="merger-list">
                 <view class="flex-module flex-label {{item.hasState}}">{{item.label}}</view>
                 <view class="flex-module flex-input {{item.hasState}}">
-                    <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}{{item.placeHolder}}"
+                    <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}{{item.placeHolder}}" disabled="{{selectInputDisable}}" 
                         type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState"
                         bindblur="setBlurState" />
                     <!-- <view wx:if="{{item.isrequest}}" class="flex-icon">*</view> -->
@@ -27,7 +27,7 @@
                 <view class="flex-module flex-select {{selectDisable?'flex-select-disabled':'flex-select-current'}}">
                     <picker disabled="{{selectDisable}}" bindchange="bindPickerChange" value="{{selectIndex}}" range="{{item.array}}">
                         <view class="picker">
-                            <text>{{item.array[selectIndex]}}</text>
+                            <text>{{item.array[selectIndex] || "无方案"}}</text>
                             <image style="width: 22rpx; height: 14rpx;margin-left:20rpx;" src="../../images/black-icon-down.png"></image>
                         </view>
                     </picker>
@@ -59,7 +59,7 @@
                 <view class="flex-area-label">{{item.label}}</view>
                 <view class="flex-area-price no-margin hasBottomLine {{item.hasState}}">
                     <view>
-                        <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}填写售价"
+                        <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}填写售价" 
                             type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState2"
                             bindblur="setBlurState2" />
                     </view>
@@ -78,7 +78,7 @@
                         <input class="flex-input-dom flex-left" maxlength="9" disabled/>
                     </view>
                     <view wx:else>
-                        <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写面积" type="digit" bindinput="bindGetInputValue"
+                        <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写面积" type="digit" bindinput="bindGetInputValue" value="{{item.data}}" 
                             data-type="{{item.typeArea}}" data-index="{{index}}" bindfocus="setFocusState2" bindblur="setBlurState2"
                         />
                     </view>
@@ -88,8 +88,8 @@
             <view wx:if="{{item.typeId==2}}" class="merger-list-area hasBottomLine {{item.hasState}} {{isLookMoreState?'hidden':''}}">
                 <view class="flex-module2 flex-label">{{item.label}}</view>
                 <view class="flex-module2 flex-input">
-                    <input placeholder-class="phcolor" class="flex-input-dom" maxlength="99" placeholder="填写售价" type="digit" bindinput="bindGetInputValue"
-                        data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState2" bindblur="setBlurState2"
+                    <input placeholder-class="phcolor" class="flex-input-dom" maxlength="99" placeholder="填写售价" type="digit" bindinput="bindGetInputValue" value="{{item.data}}" 
+                        data-type="{{item.typeArea}}" data-index="{{index}}" bindfocus="setFocusState2" bindblur="setBlurState2"
                     />
                 </view>
                 <view class="flex-module2 flex-unit">元</view>

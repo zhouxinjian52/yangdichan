@@ -42,10 +42,13 @@
 }
 
 .flex-select {
-    flex: 1.5;
+    flex: 3;
     margin-left: 20rpx;
     font-size: 32rpx;
     justify-content: flex-end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .flex-select-disabled {
@@ -121,6 +124,10 @@
 
 .no-margin {
     margin: 0;
+}
+
+.hidden {
+    display: none;
 }
 
 .flex-left {
@@ -206,8 +213,4 @@
 
 .stepper .disabled {
     color: #eee;
-}
-
-.hidden {
-    display: none;
 }

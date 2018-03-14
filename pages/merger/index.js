@@ -17,7 +17,7 @@ const formListMessage = [{
 	array: [],
 	isrequest: true,
 	hasState: "",
-	placeHolder: "填写容积率",
+	placeHolder: "填写",
 	unit: ""
 }, {
 	label: "有票地价",

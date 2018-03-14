@@ -18,7 +18,7 @@
             <!-- 2 -->
             <view wx:elif="{{item.typeId==2}}" class="merger-list">
                 <view class="flex-module flex-label {{item.hasState}}">{{item.label}}</view>
-                <view class="flex-module flex-input {{item.hasState}}">
+                <view class="flex-module flex-input-select {{item.hasState}}">
                     <input placeholder-class="phcolor" class="flex-input-dom" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}{{item.placeHolder}}" disabled="{{selectInputDisable}}" 
                         type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState"
                         bindblur="setBlurState" />
@@ -58,7 +58,7 @@
             <view wx:if="{{item.typeId==1}}" class="merger-list-area {{isLookMoreState?item.typeArea=='highAcreage'?'':'hidden':''}}">
                 <view class="flex-area-label">{{item.label}}</view>
                 <view class="flex-area-price no-margin hasBottomLine {{item.hasState}}">
-                    <view>
+                    <view class="flex-large-box">
                         <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="{{item.isrequest ? '*' : ''}}填写售价" 
                             type="digit" bindinput="bindGetInputValue" data-type="{{item.type}}" data-index="{{index}}" bindfocus="setFocusState2"
                             bindblur="setBlurState2" />
@@ -74,10 +74,10 @@
                     </view>
                 </view>
                 <view class="flex-area-price flex-area-price hasBottomLine {{item.hasState}}">
-                    <view wx:if="{{item.typeArea=='parkingAcreage'}}">
+                    <view class="flex-large-box" wx:if="{{item.typeArea=='parkingAcreage'}}">
                         <input class="flex-input-dom flex-left" maxlength="9" disabled/>
                     </view>
-                    <view wx:else>
+                    <view class="flex-large-box" wx:else>
                         <input placeholder-class="phcolor" class="flex-input-dom flex-left" maxlength="9" placeholder="填写面积" type="digit" bindinput="bindGetInputValue" value="{{item.data}}" 
                             data-type="{{item.typeArea}}" data-index="{{index}}" bindfocus="setFocusState2" bindblur="setBlurState2"
                         />

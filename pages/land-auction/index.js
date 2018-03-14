@@ -2,10 +2,6 @@
 //获取应用实例
 var app = getApp()
 wx.showNavigationBarLoading()
-
-//获取应用实例
-var app = getApp()
-wx.showNavigationBarLoading()
 const formListMessage = [{
 	label: "土地亩数",
 	type: "landAcres",
@@ -18,10 +14,10 @@ const formListMessage = [{
 	label: "容积率",
 	type: "plotRatio",
 	typeId: 2, // 下拉框类
-	array: ["方案1", "方案2", "方案3", "方案4", "方案5"],
+	array: [],
 	isrequest: true,
 	hasState: "",
-	placeHolder: "填写容积率",
+	placeHolder: "填写",
 	unit: ""
 }, {
 	label: "成交价",

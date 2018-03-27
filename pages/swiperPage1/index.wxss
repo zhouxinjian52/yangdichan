@@ -22,15 +22,6 @@
     margin-right: 10rpx;
 }
 
-.swiper-view-canvas {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 4;
-    position: relative;
-    text-align: center;
-}
-
 .swiper-view-number {
     flex: 1;
     display: flex;
@@ -50,9 +41,24 @@
     color: #fff;
 }
 
+.swiper-view-canvas {
+    flex: 4;
+    position: relative;
+    width: 100%;
+}
+
+.canvasArcCir{
+    width: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    text-align: center;
+    left: 0;
+}
+
 .evaluation {
     position: absolute;
     width: 100%;
+    text-align: center;
     color: #fff;
     font-size: 42rpx;
     top: 28%;
@@ -60,6 +66,7 @@
 
 .proportion {
     position: absolute;
+    text-align: center;
     width: 100%;
     color: #fff;
     font-size: 100rpx;
@@ -76,10 +83,5 @@
     color: #9ca7bb;
     font-size: 24rpx;
     top: 56%;
-}
-
-.canvasArcCir{
-    box-sizing: border-box;
-    position: absolute;
-    left: 0;
+    text-align: center;
 }

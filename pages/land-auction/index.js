@@ -367,7 +367,7 @@ Page({
 			title: '计算中，请稍等！！'
 		})
 		wx.request({
-			url: app.globalData.requestUrl + app.globalData.mergerSubmit,
+			url: app.globalData.requestUrl + app.globalData.landSubmit,
 			data: { ...newRequestObject },
 			header: {
 				'content-type': 'application/json' // 默认值

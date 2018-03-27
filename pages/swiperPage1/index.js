@@ -1,8 +1,12 @@
 //page1.js
 //获取应用实例
 var app = getApp()
-var step = 0, startAngle = 1.5 * Math.PI, endAngle = 0;
-var animation_interval = 16.7, n = 0, speed = 8;
+var step = 0,
+	startAngle = 1.5 * Math.PI,
+	endAngle = 0;
+var animation_interval = 16.7,
+	n = 0,
+	speed = 8;
 var requestAnimationFrameName;
 var ctx = wx.createCanvasContext('canvasArcCir');
 var gradientColor = ['#00d0de', '#00e5a9'];
@@ -25,7 +29,7 @@ const requestResultObject = {
 Page({
 	data: {
 		canvasCircleWidth: wx.getSystemInfoSync().screenWidth,
-		canvasCircleHeight: (wx.getSystemInfoSync().screenHeight - 50) * 2 / 3,
+		canvasCircleHeight: (wx.getSystemInfoSync().screenHeight - 130) * 2 / 3,
 		resultDataObject: requestResultObject,
 		indicatorDots: true // 显示面板的点点
 	},
@@ -111,7 +115,7 @@ Page({
 	},
 	drawArc(s, e) {
 		const x = this.data.canvasCircleWidth / 2,
-			y = this.data.canvasCircleWidth / 2,
+			y = this.data.canvasCircleWidth / 2.2,
 			radius = this.data.canvasCircleWidth / 4;
 
 		// 绘制浅蓝环形背景
@@ -139,17 +143,29 @@ Page({
 		ctx.clearRect(0, 0, 1000, 1000);
 		ctx.draw();
 		const x = this.data.canvasCircleWidth / 2, // 获取画布的中心坐标x
-			y = this.data.canvasCircleWidth / 2, // 获取画布的中心坐标y
+			y = this.data.canvasCircleWidth / 2.2, // 获取画布的中心坐标y
 			radius = this.data.canvasCircleWidth / 4; // 圆环的最大半径
 
 		// 绘制圆环溢出效果的坐标集
 		let arraysCombineAlpha = []
 		if (n >= 90 && n <= 180) {
-			arraysCombineAlpha = [[0, 55, 35], [58, 95, 75]]
+			arraysCombineAlpha = [
+				[0, 55, 35],
+				[58, 95, 75]
+			]
 		} else if (n >= 180 && n <= 240) {
-			arraysCombineAlpha = [[0, 55, 35], [58, 95, 75], [105, 135, 125]]
+			arraysCombineAlpha = [
+				[0, 55, 35],
+				[58, 95, 75],
+				[105, 135, 125]
+			]
 		} else if (n >= 270) {
-			arraysCombineAlpha = [[0, 55, 35], [58, 95, 75], [105, 135, 125], [136, 178, 160]]
+			arraysCombineAlpha = [
+				[0, 55, 35],
+				[58, 95, 75],
+				[105, 135, 125],
+				[136, 178, 160]
+			]
 		}
 		// 颜色较深的半径随机数
 		const rNumber = arraysCombineAlpha.map(() => Math.random() * 40 + 40);
@@ -175,11 +191,23 @@ Page({
 		// 绘制颜色较深的静态效果
 		let arraysCombine = []
 		if (n >= 90 && n <= 180) {
-			arraysCombine = [[4, 53, 35], [62, 92, 75]]
+			arraysCombine = [
+				[4, 53, 35],
+				[62, 92, 75]
+			]
 		} else if (n >= 180 && n <= 240) {
-			arraysCombine = [[4, 53, 35], [62, 92, 75], [115, 133, 125]]
+			arraysCombine = [
+				[4, 53, 35],
+				[62, 92, 75],
+				[115, 133, 125]
+			]
 		} else if (n >= 270) {
-			arraysCombine = [[4, 53, 35], [62, 92, 75], [115, 133, 125], [139, 176, 160]]
+			arraysCombine = [
+				[4, 53, 35],
+				[62, 92, 75],
+				[115, 133, 125],
+				[139, 176, 160]
+			]
 		}
 		arraysCombine.map((d, k) => {
 			const round = d.map(n => 90 - n); // 控制点的度数，结束点的度数
